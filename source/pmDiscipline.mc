@@ -40,14 +40,14 @@ class pmDiscipline {
 		// currentIcon = Ui.loadResource(Rez.Drawables.CycleIcon);
 	}
 	
-	function onStart() {
+	function onBegin() {
+		var logtxt = Lang.format("Starting $1$ ($2$ :: $3$)", [stageNames[currentStage], stageSports[currentStage], stageSubSports[currentStage]]);
+		Sys.println(logtxt);
 		startTime = Sys.getTimer();
 		disciplineSession = Rec.createSession( { :name=>stageNames[currentStage], :sport=>stageSports[currentStage], :subsport=>stageSubSports[currentStage] } );
     	if( disciplineSession != null )
     	{
-			var logtxt = Lang.format("Starting $1$", [stageNames[currentStage]]);
-			Sys.println(logtxt);
-    		session.start();
+    		disciplineSession.start();
     	}
 	}
 	

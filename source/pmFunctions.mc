@@ -1,5 +1,6 @@
 using Toybox.Application as App;
 using Toybox.WatchUi as Ui;
+using Toybox.Graphics as Gfx;
 using Toybox.Position as Pos;
 using Toybox.ActivityRecording as Rec;
 using Toybox.Lang as Lang;
@@ -62,4 +63,59 @@ module pmFunctions {
     	return Lang.format("$1$", [result.format("%.2f")]);
     }
 
+	function drawChevron(dc, leftX, rightX, centreY, chevronHeight, isFirst, isLast) {
+	
+		// Draw event segments
+		var poly;
+		var segwidth = dc.getWidth() / 5;
+		
+		if( isFirst && isLast ) {
+			poly = new [0];
+			dc.fillRectangle(leftX, centreY - (chevronHeight / 2), rightX - leftX, chevronHeight);
+			return;
+		} else if( isFirst ) {
+			poly = [
+				[leftX, centreY - (chevronHeight / 2)],
+				[rightX - (chevronHeight / 2), centreY - (chevronHeight / 2)],
+				[rightX + (chevronHeight / 2), centreY],
+				[rightX - (chevronHeight / 2), centreY + (chevronHeight / 2)],
+				[leftX, centreY + (chevronHeight / 2)]
+				];
+		} else if( isLast ) {
+			poly = [
+				[leftX - (chevronHeight / 2), centreY - (chevronHeight / 2)],
+				[rightX, centreY - (chevronHeight / 2)],
+				[rightX, centreY + (chevronHeight / 2)],
+				[leftX - (chevronHeight / 2), centreY + (chevronHeight / 2)],
+				[leftX + (chevronHeight / 2), centreY]
+				];
+		} else {
+			poly = [
+				[leftX - (chevronHeight / 2), centreY - (chevronHeight / 2)],
+				[rightX - (chevronHeight / 2), centreY - (chevronHeight / 2)],
+				[rightX + (chevronHeight / 2), centreY],
+				[rightX - (chevronHeight / 2), centreY + (chevronHeight / 2)],
+				[leftX - (chevronHeight / 2), centreY + (chevronHeight / 2)],
+				[leftX + (chevronHeight / 2), centreY]
+				];
+		}
+		
+		dc.fillPolygon(poly);
+	}
+	
+	function getGPSQualityColour(gpsInfo) {
+		var gpsnfo;
+		if( gpsInfo == null ) {
+			gpsnfo = Pos.getInfo();
+		} else {
+			gpsnfo = gpsInfo;
+		}
+	
+		if( gpsnfo.accuracy == Pos.QUALITY_GOOD ) {
+			return Gfx.COLOR_DK_GREEN;
+		} else if( gpsnfo.accuracy == Pos.QUALITY_USABLE ) {
+			return Gfx.COLOR_YELLOW;
+		}
+		return Gfx.COLOR_DK_RED;
+	}
 }

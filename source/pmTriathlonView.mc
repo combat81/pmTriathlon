@@ -17,8 +17,12 @@ class pmTriathlonViewInputDelegate extends Ui.InputDelegate {
 		Sys.println(keynum);
 		
 		if( evt.getKey() == Ui.KEY_ENTER ) {
-			// App.getApp().startSession();
-			Ui.pushView( new pmRecordingView(), new pmRecordingViewInputDelegate(), Ui.SLIDE_UP );
+			var recview = new pmRecordingView();
+			var inpdelegate = new pmRecordingViewInputDelegate();
+			inpdelegate.recordingView = recview;
+			recview.configureDisciplines();
+			recview.nextDiscipline();
+			Ui.pushView( recview, inpdelegate, Ui.SLIDE_UP );
 			Ui.requestUpdate();
 		}
 	
@@ -40,7 +44,7 @@ class pmTriathlonView extends Ui.View {
     	if( viewmethod == 0 ) {
     		introtime++;
     		
-    		if( introtime >= 2 ) {
+    		if( introtime >= 1 ) {
     			viewmethod = 1;
     		}
     		
@@ -97,15 +101,41 @@ class pmTriathlonView extends Ui.View {
 		var gpsinfo = Pos.getInfo();
 		var gpsIsOkay = ( gpsinfo.accuracy == Pos.QUALITY_GOOD || gpsinfo.accuracy == Pos.QUALITY_USABLE );
 		
-		if( gpsinfo.accuracy == Pos.QUALITY_GOOD ) {
-			dc.setColor(Gfx.COLOR_DK_GREEN, Gfx.COLOR_BLACK);
-		} else if( gpsinfo.accuracy == Pos.QUALITY_USABLE ) {
-			dc.setColor(Gfx.COLOR_YELLOW, Gfx.COLOR_BLACK);
-		} else {
-			dc.setColor(Gfx.COLOR_DK_RED, Gfx.COLOR_BLACK);
-		}
-		dc.fillRectangle(0, 35, dc.getWidth(), 5);
+		dc.setColor( pmFunctions.getGPSQualityColour(gpsinfo), Gfx.COLOR_BLACK);
+		dc.fillRectangle(0, dc.getHeight() - 4, dc.getWidth(), 4);
+		dc.fillRectangle(0, dc.getHeight() - 32, dc.getWidth(), 4);
+
+		dc.setColor(Gfx.COLOR_ORANGE, Gfx.COLOR_BLACK);
+		dc.drawText(dc.getWidth() / 2, 0, Gfx.FONT_XTINY, "www.pmprog.co.uk", Gfx.TEXT_JUSTIFY_CENTER);
+		dc.drawText(dc.getWidth() / 2, (dc.getHeight() - dc.getFontHeight(Gfx.FONT_LARGE)) / 2, Gfx.FONT_LARGE, "pmTriathlon", Gfx.TEXT_JUSTIFY_CENTER);
 		
+		var segwidth = (dc.getWidth() - 8) / 4;
+		var xfwidth = segwidth / 2;
+		
+		var curx = 0;
+		
+		dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_BLACK);
+		pmFunctions.drawChevron(dc, curx, curx + segwidth, dc.getHeight() - 16, 20, true, false);
+		curx += segwidth + 2;
+		
+		dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_BLACK);
+		pmFunctions.drawChevron(dc, curx, curx + xfwidth, dc.getHeight() - 16, 20, false, false);
+		curx += xfwidth + 2;
+
+		dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_BLACK);
+		pmFunctions.drawChevron(dc, curx, curx + segwidth, dc.getHeight() - 16, 20, false, false);
+		curx += segwidth + 2;
+
+		dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_BLACK);
+		pmFunctions.drawChevron(dc, curx, curx + xfwidth, dc.getHeight() - 16, 20, false, false);
+		curx += xfwidth + 2;
+
+		dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_BLACK);
+		pmFunctions.drawChevron(dc, curx, dc.getWidth(), dc.getHeight() - 16, 20, false, true);
+
+		
+		dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
+		dc.drawText(dc.getWidth() - 4, 30, Gfx.FONT_SMALL, "START >", Gfx.TEXT_JUSTIFY_RIGHT);
 		
 		if( !gpsIsOkay ) {
 			// Draw "Wait for GPS"
