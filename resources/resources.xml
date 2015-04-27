@@ -1,0 +1,12 @@
+<resources>
+	<string id="AppName">pmTriathlon</string>
+
+	<bitmap id="LauncherIcon" filename="images/launcher_icon.png" />
+	<bitmap id="pmprogLogo" filename="images/pmprog.png" />
+	<bitmap id="SwimIcon" filename="images/swim.png" />
+	<bitmap id="CycleIcon" filename="images/cycle.png" />
+	<bitmap id="RunIcon" filename="images/run.png" />
+	<bitmap id="TransIcon" filename="images/transistion.png" />
+	<bitmap id="StartIcon" filename="images/start.png" />
+	<bitmap id="FinishIcon" filename="images/finish.png" />
+</resources>
