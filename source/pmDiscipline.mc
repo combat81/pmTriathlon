@@ -26,7 +26,12 @@ class pmDiscipline {
 		Rec.SUB_SPORT_ROAD, 
 		Rec.SUB_SPORT_GENERIC, 
 		Rec.SUB_SPORT_STREET ];
-		
+	static var stageIcons = [ 
+		Rez.Drawables.SwimIcon,
+		Rez.Drawables.TransIcon,
+		Rez.Drawables.CycleIcon,
+		Rez.Drawables.TransIcon,
+		Rez.Drawables.RunIcon ];
 		
 	var startTime;
 	var endTime;
@@ -37,7 +42,7 @@ class pmDiscipline {
 
 	function initaliseDiscipline(stage) {
 		currentStage = stage;
-		// currentIcon = Ui.loadResource(Rez.Drawables.CycleIcon);
+		currentIcon = Ui.loadResource(stageIcons[stage]);
 	}
 	
 	function onBegin() {
@@ -61,7 +66,7 @@ class pmDiscipline {
 		disciplineSession = null;
 	}
 	
-	function onUpdate() {
+	function onTick() {
 	}
 
 }

@@ -32,8 +32,6 @@ class pmTriathlonViewInputDelegate extends Ui.InputDelegate {
 class pmTriathlonView extends Ui.View {
 
 	var viewmethod = 0;
-	
-	var introtime = 0;
 	var pmprogLogo;
 
 	var refreshtimer;
@@ -42,13 +40,7 @@ class pmTriathlonView extends Ui.View {
     function timercallback()
     {
     	if( viewmethod == 0 ) {
-    		introtime++;
-    		
-    		if( introtime >= 1 ) {
-    			viewmethod = 1;
-    		}
-    		
-    	} else {
+    		viewmethod = 1;
     	}
     	blinkOn = 1 - blinkOn;
         Ui.requestUpdate();
@@ -86,11 +78,9 @@ class pmTriathlonView extends Ui.View {
 
 
 	function drawIntro(dc) {
-		if( introtime == 0 ) {
-			dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_BLACK);
-			dc.clear();
-			dc.drawBitmap( (dc.getWidth() / 2) - (pmprogLogo.getWidth() / 2), (dc.getHeight() / 2) - (pmprogLogo.getHeight() / 2), pmprogLogo);
-		}
+		dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_BLACK);
+		dc.clear();
+		dc.drawBitmap( (dc.getWidth() / 2) - (pmprogLogo.getWidth() / 2), (dc.getHeight() / 2) - (pmprogLogo.getHeight() / 2), pmprogLogo);
 	}
 	
 	function drawPrepare(dc) {
