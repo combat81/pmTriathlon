@@ -11,6 +11,8 @@ using Toybox.Timer as Timer;
 
 class pmTriathlonViewInputDelegate extends Ui.InputDelegate {
 
+	var triview;
+
 	function onKey(evt) {
 	
 		var keynum = Lang.format("T $1$", [evt.getKey()]);
@@ -19,9 +21,12 @@ class pmTriathlonViewInputDelegate extends Ui.InputDelegate {
 		if( evt.getKey() == Ui.KEY_ENTER ) {
 			var recview = new pmRecordingView();
 			var inpdelegate = new pmRecordingViewInputDelegate();
+			
 			inpdelegate.recordingView = recview;
+			recview.originalview = triview;
 			recview.configureDisciplines();
 			recview.nextDiscipline();
+			
 			Ui.pushView( recview, inpdelegate, Ui.SLIDE_UP );
 			Ui.requestUpdate();
 		}
@@ -36,6 +41,8 @@ class pmTriathlonView extends Ui.View {
 
 	var refreshtimer;
 	var blinkOn = 0;
+	
+	var recordedDisciplines;
 	
     function timercallback()
     {
@@ -62,6 +69,8 @@ class pmTriathlonView extends Ui.View {
     //! Update the view
     function onUpdate(dc) {
     	if( viewmethod == 0 ) {
+    		drawIntro(dc);
+    	} else if( viewmethod == 2 ) {
     		drawIntro(dc);
     	} else {
     		drawPrepare(dc);

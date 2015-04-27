@@ -27,23 +27,27 @@ class pmRecordingViewInputDelegate extends Ui.InputDelegate {
 
 class pmRecordingView extends Ui.View {
 
-	var refreshtimer;
+	var recordingtimer;
 	var blinkOn = 0;
+	var originalview;
 	
 	var disciplines = [ new pmDiscipline(), new pmDiscipline(), new pmDiscipline(), new pmDiscipline(), new pmDiscipline() ];
 	var currentDiscipline = -1;
 	
     function recordingtimercallback()
     {
-    	disciplines[currentDiscipline].onTick();
+    	if( currentDiscipline < 5 )
+    	{
+    		disciplines[currentDiscipline].onTick();
+    	}
     	blinkOn = 1 - blinkOn;
         Ui.requestUpdate();
     }
 
     //! Load your resources here
     function onLayout(dc) {
-		refreshtimer = new Timer.Timer();
-		refreshtimer.start( method(:recordingtimercallback), 1000, true );
+		recordingtimer = new Timer.Timer();
+		recordingtimer.start( method(:recordingtimercallback), 1000, true );
     }
 
     //! Restore the state of the app and prepare the view to be shown
@@ -85,11 +89,16 @@ class pmRecordingView extends Ui.View {
 		currentDiscipline++;
 		if( currentDiscipline == 5 ) {
 			// Finished
-			refreshtimer.stop();
+			//recordingtimer.stop();
+			
 			var finishview = new pmFinishView();
-			finishview.recordedView = self;
-			Ui.popView( Ui.SLIDE_DOWN );
-			Ui.pushView(finishview, new pmFinishViewInputDelegate(), SLIDE_UP);
+			finishview.recordedDisciplines = [ disciplines[0], disciplines[1], disciplines[2], disciplines[3], disciplines[4] ];
+			Ui.pushView(finishview, new pmFinishViewInputDelegate(), Ui.SLIDE_UP);
+
+			//originalview.viewmethod = 2;
+			//originalview.recordedDisciplines = [ disciplines[0], disciplines[1], disciplines[2], disciplines[3], disciplines[4] ];
+			//Ui.popView(Ui.SLIDE_DOWN);
+
 		} else {
 			disciplines[currentDiscipline].onBegin();
 			Ui.requestUpdate();

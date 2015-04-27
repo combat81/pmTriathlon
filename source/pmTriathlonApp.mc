@@ -21,7 +21,10 @@ class pmTriathlonApp extends App.AppBase {
 
     //! Return the initial view of your application here
     function getInitialView() {
-        return [ new pmTriathlonView(), new pmTriathlonViewInputDelegate() ];
+    	var view = new pmTriathlonView();
+    	var dele = new pmTriathlonViewInputDelegate();
+    	dele.triview = view;
+        return [ view, dele ];
     }
     
     function onPosition(info) {

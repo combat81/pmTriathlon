@@ -52,7 +52,7 @@ class pmDiscipline {
 		disciplineSession = Rec.createSession( { :name=>stageNames[currentStage], :sport=>stageSports[currentStage], :subsport=>stageSubSports[currentStage] } );
     	if( disciplineSession != null )
     	{
-    		disciplineSession.start();
+    		//disciplineSession.start();
     	}
 	}
 	
