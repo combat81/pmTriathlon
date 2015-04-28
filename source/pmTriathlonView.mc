@@ -23,12 +23,12 @@ class pmTriathlonViewInputDelegate extends Ui.InputDelegate {
 			var inpdelegate = new pmRecordingViewInputDelegate();
 			
 			inpdelegate.recordingView = recview;
-			recview.originalview = triview;
-			recview.configureDisciplines();
-			recview.nextDiscipline();
+			pmTriData.configureDisciplines();
+			pmTriData.nextDiscipline();
 			
-			Ui.pushView( recview, inpdelegate, Ui.SLIDE_UP );
+			Ui.switchToView( recview, inpdelegate, Ui.SLIDE_UP );
 			Ui.requestUpdate();
+
 		}
 	
 	}
@@ -38,6 +38,7 @@ class pmTriathlonView extends Ui.View {
 
 	var viewmethod = 0;
 	var pmprogLogo;
+	var viewcount = 0;
 
 	var refreshtimer;
 	var blinkOn = 0;
@@ -47,9 +48,14 @@ class pmTriathlonView extends Ui.View {
     function timercallback()
     {
     	if( viewmethod == 0 ) {
-    		viewmethod = 1;
+    		viewcount++;
+    		
+    		if( viewcount >= 2 ) {
+    			viewmethod = 1;
+    		}
+    	} else {
+    		blinkOn = 1 - blinkOn;
     	}
-    	blinkOn = 1 - blinkOn;
         Ui.requestUpdate();
         
     }
@@ -87,9 +93,10 @@ class pmTriathlonView extends Ui.View {
 
 
 	function drawIntro(dc) {
-		dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_BLACK);
+		dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_WHITE);
 		dc.clear();
 		dc.drawBitmap( (dc.getWidth() / 2) - (pmprogLogo.getWidth() / 2), (dc.getHeight() / 2) - (pmprogLogo.getHeight() / 2), pmprogLogo);
+		dc.drawText(dc.getWidth() / 2, (dc.getHeight() / 2) + (pmprogLogo.getHeight() / 2) + 3, Gfx.FONT_XTINY, "www.pmprog.co.uk", Gfx.TEXT_JUSTIFY_CENTER);
 	}
 	
 	function drawPrepare(dc) {

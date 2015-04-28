@@ -18,7 +18,7 @@ class pmRecordingViewInputDelegate extends Ui.InputDelegate {
 		Sys.println(keynum);
 		
 		if( evt.getKey() == Ui.KEY_ENTER ) {
-			recordingView.nextDiscipline();
+			pmTriData.nextDiscipline();
 			Ui.requestUpdate();
 		}
 	
@@ -29,16 +29,12 @@ class pmRecordingView extends Ui.View {
 
 	var recordingtimer;
 	var blinkOn = 0;
-	var originalview;
-	
-	var disciplines = [ new pmDiscipline(), new pmDiscipline(), new pmDiscipline(), new pmDiscipline(), new pmDiscipline() ];
-	var currentDiscipline = -1;
 	
     function recordingtimercallback()
     {
-    	if( currentDiscipline < 5 )
+    	if( pmTriData.currentDiscipline < 5 )
     	{
-    		disciplines[currentDiscipline].onTick();
+    		pmTriData.disciplines[pmTriData.currentDiscipline].onTick();
     	}
     	blinkOn = 1 - blinkOn;
         Ui.requestUpdate();
@@ -72,38 +68,6 @@ class pmRecordingView extends Ui.View {
     //! Terminate any active timers and prepare for slow updates.
     function onEnterSleep() {
     }
-    
-	///////////////////////////////////////////////////////////////////////////////////// External functions
-	function configureDisciplines() {
-		disciplines[0].initaliseDiscipline(0);
-		disciplines[1].initaliseDiscipline(1);
-		disciplines[2].initaliseDiscipline(2);
-		disciplines[3].initaliseDiscipline(3);
-		disciplines[4].initaliseDiscipline(4);
-	}
-	
-	function nextDiscipline() {
-		if( currentDiscipline >= 0 ) {
-			disciplines[currentDiscipline].onEnd();
-		}
-		currentDiscipline++;
-		if( currentDiscipline == 5 ) {
-			// Finished
-			//recordingtimer.stop();
-			
-			var finishview = new pmFinishView();
-			finishview.recordedDisciplines = [ disciplines[0], disciplines[1], disciplines[2], disciplines[3], disciplines[4] ];
-			Ui.pushView(finishview, new pmFinishViewInputDelegate(), Ui.SLIDE_UP);
-
-			//originalview.viewmethod = 2;
-			//originalview.recordedDisciplines = [ disciplines[0], disciplines[1], disciplines[2], disciplines[3], disciplines[4] ];
-			//Ui.popView(Ui.SLIDE_DOWN);
-
-		} else {
-			disciplines[currentDiscipline].onBegin();
-			Ui.requestUpdate();
-		}
-	}
     
 	///////////////////////////////////////////////////////////////////////////////////// Render functions
     function drawGPS(dc) {
@@ -142,18 +106,18 @@ class pmRecordingView extends Ui.View {
 	}
 	
 	function getSegmentColour(segmentNumber) {
-		if( currentDiscipline == segmentNumber ) {
+		if( pmTriData.currentDiscipline == segmentNumber ) {
 			return Gfx.COLOR_ORANGE;
-		} else if( currentDiscipline > segmentNumber ) {
+		} else if( pmTriData.currentDiscipline > segmentNumber ) {
 			return Gfx.COLOR_DK_GREEN;
 		}
 		return Gfx.COLOR_LT_GRAY;
 	}
 	
 	function drawTitleBar(dc) {
-		var elapsedTime = Sys.getTimer() - disciplines[0].startTime;
+		var elapsedTime = Sys.getTimer() - pmTriData.disciplines[0].startTime;
 		
-		dc.drawBitmap( 0, 0, disciplines[currentDiscipline].currentIcon );
+		dc.drawBitmap( 0, 0, pmTriData.disciplines[pmTriData.currentDiscipline].currentIcon );
 		
 		dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
 		dc.drawText(34, 0, Gfx.FONT_MEDIUM, "Total:", Gfx.TEXT_JUSTIFY_LEFT);
@@ -164,10 +128,10 @@ class pmRecordingView extends Ui.View {
 		var y = 44;
 		
 		// Discipline Time
-		var elapsedTime = Sys.getTimer() - disciplines[currentDiscipline].startTime;
+		var elapsedTime = Sys.getTimer() - pmTriData.disciplines[pmTriData.currentDiscipline].startTime;
 		y = drawDataField( dc, "Discipline:", pmFunctions.msToTime(elapsedTime), y );
 		
-		if( currentDiscipline == 1 || currentDiscipline == 3 ) {
+		if( pmTriData.currentDiscipline == 1 || pmTriData.currentDiscipline == 3 ) {
 			y = drawDataField( dc, null, "Transistion", y );
 		} else {
 			var cursession = Act.getActivityInfo();

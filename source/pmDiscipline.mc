@@ -33,8 +33,8 @@ class pmDiscipline {
 		Rez.Drawables.TransIcon,
 		Rez.Drawables.RunIcon ];
 		
-	var startTime;
-	var endTime;
+	var startTime = 0;
+	var endTime = 0;
 	var disciplineSession;
 	
 	var currentStage;
@@ -52,7 +52,7 @@ class pmDiscipline {
 		disciplineSession = Rec.createSession( { :name=>stageNames[currentStage], :sport=>stageSports[currentStage], :subsport=>stageSubSports[currentStage] } );
     	if( disciplineSession != null )
     	{
-    		//disciplineSession.start();
+    		disciplineSession.start();
     	}
 	}
 	

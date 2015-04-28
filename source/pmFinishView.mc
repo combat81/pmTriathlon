@@ -10,23 +10,19 @@ using Toybox.Timer as Timer;
 
 class pmFinishViewInputDelegate extends Ui.InputDelegate {
 
-	var recordingView;
-
 	function onKey(evt) {
 	
 		var keynum = Lang.format("F $1$", [evt.getKey()]);
 		Sys.println(keynum);
 		
 		if( evt.getKey() == Ui.KEY_ENTER ) {
-			//Ui.popView( Ui.SLIDE_DOWN );
+			// Ui.popView( Ui.SLIDE_DOWN );
 		}
 	
 	}
 }
 
 class pmFinishView extends Ui.View {
-
-	var recordedDisciplines;
 
     //! Load your resources here
     function onLayout(dc) {
@@ -38,18 +34,18 @@ class pmFinishView extends Ui.View {
 
     //! Update the view
     function onUpdate(dc) {
-		dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_BLACK);
+		dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_WHITE);
 		dc.clear();
 
-		//var elapsedTime = recordedDisciplines[4].endTime - recordedDisciplines[0].startTime;
+		var elapsedTime = pmTriData.disciplines[4].endTime - pmTriData.disciplines[0].startTime;
 		
-		dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_TRANSPARENT);
+		dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_TRANSPARENT);
 		dc.drawText(0, 0, Gfx.FONT_MEDIUM, "Total:", Gfx.TEXT_JUSTIFY_LEFT);
-		//dc.drawText(dc.getWidth() - 2, 0, Gfx.FONT_MEDIUM, pmFunctions.msToTime(elapsedTime), Gfx.TEXT_JUSTIFY_RIGHT);
+		dc.drawText(dc.getWidth() - 2, 0, Gfx.FONT_MEDIUM, pmFunctions.msToTime(elapsedTime), Gfx.TEXT_JUSTIFY_RIGHT);
 		
 		dc.drawLine( 0, dc.getFontHeight( Gfx.FONT_MEDIUM ), dc.getWidth(), dc.getFontHeight( Gfx.FONT_MEDIUM ) );
 		
-		//drawDataFields(dc);
+		drawDataFields(dc);
     }
 
     //! The user has just looked at their watch. Timers and animations may be started here.
@@ -64,23 +60,23 @@ class pmFinishView extends Ui.View {
 		var y = dc.getFontHeight( Gfx.FONT_MEDIUM ) + 1;
 		
 		// Discipline Time
-		var elapsedTime = recordedDisciplines[0].endTime - recordedDisciplines[0].startTime;
+		var elapsedTime = pmTriData.disciplines[0].endTime - pmTriData.disciplines[0].startTime;
 		y = drawDataField( dc, "Swim:", pmFunctions.msToTime(elapsedTime), y );
-		elapsedTime = recordedDisciplines[1].endTime - recordedDisciplines[1].startTime;
+		elapsedTime = pmTriData.disciplines[1].endTime - pmTriData.disciplines[1].startTime;
 		y = drawDataField( dc, "Trans 1:", pmFunctions.msToTime(elapsedTime), y );
-		elapsedTime = recordedDisciplines[2].endTime - recordedDisciplines[2].startTime;
+		elapsedTime = pmTriData.disciplines[2].endTime - pmTriData.disciplines[2].startTime;
 		y = drawDataField( dc, "Cycle:", pmFunctions.msToTime(elapsedTime), y );
-		elapsedTime = recordedDisciplines[3].endTime - recordedDisciplines[3].startTime;
+		elapsedTime = pmTriData.disciplines[3].endTime - pmTriData.disciplines[3].startTime;
 		y = drawDataField( dc, "Trans 2:", pmFunctions.msToTime(elapsedTime), y );
-		elapsedTime = recordedDisciplines[4].endTime - recordedDisciplines[4].startTime;
+		elapsedTime = pmTriData.disciplines[4].endTime - pmTriData.disciplines[4].startTime;
 		y = drawDataField( dc, "Run:", pmFunctions.msToTime(elapsedTime), y );
 
 	}
 	
 	function drawDataField(dc, label, value, y) {
-		dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
+		dc.setColor(Gfx.COLOR_DK_GRAY, Gfx.COLOR_TRANSPARENT);
 		dc.drawText(2, y, Gfx.FONT_SMALL, label, Gfx.TEXT_JUSTIFY_LEFT);
-		dc.setColor(Gfx.COLOR_ORANGE, Gfx.COLOR_TRANSPARENT);
+		dc.setColor(Gfx.COLOR_DK_RED, Gfx.COLOR_TRANSPARENT);
 		dc.drawText(dc.getWidth() - 2, y, Gfx.FONT_SMALL, value, Gfx.TEXT_JUSTIFY_RIGHT);
 		y += dc.getFontHeight( Gfx.FONT_SMALL );
 		dc.setColor(Gfx.COLOR_LT_GRAY, Gfx.COLOR_TRANSPARENT);
