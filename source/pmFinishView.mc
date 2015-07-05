@@ -61,15 +61,15 @@ class pmFinishView extends Ui.View {
 		
 		// Discipline Time
 		var elapsedTime = pmTriData.disciplines[0].endTime - pmTriData.disciplines[0].startTime;
-		y = drawDataField( dc, "Swim:", pmFunctions.msToTime(elapsedTime), y );
+		y = drawDataField( dc, pmTriData.disciplines[0].getStageName(), pmFunctions.msToTime(elapsedTime), y );
 		elapsedTime = pmTriData.disciplines[1].endTime - pmTriData.disciplines[1].startTime;
-		y = drawDataField( dc, "Trans 1:", pmFunctions.msToTime(elapsedTime), y );
+		y = drawDataField( dc, pmTriData.disciplines[1].getStageName(), pmFunctions.msToTime(elapsedTime), y );
 		elapsedTime = pmTriData.disciplines[2].endTime - pmTriData.disciplines[2].startTime;
-		y = drawDataField( dc, "Cycle:", pmFunctions.msToTime(elapsedTime), y );
+		y = drawDataField( dc, pmTriData.disciplines[2].getStageName(), pmFunctions.msToTime(elapsedTime), y );
 		elapsedTime = pmTriData.disciplines[3].endTime - pmTriData.disciplines[3].startTime;
-		y = drawDataField( dc, "Trans 2:", pmFunctions.msToTime(elapsedTime), y );
+		y = drawDataField( dc, pmTriData.disciplines[3].getStageName(), pmFunctions.msToTime(elapsedTime), y );
 		elapsedTime = pmTriData.disciplines[4].endTime - pmTriData.disciplines[4].startTime;
-		y = drawDataField( dc, "Run:", pmFunctions.msToTime(elapsedTime), y );
+		y = drawDataField( dc, pmTriData.disciplines[4].getStageName(), pmFunctions.msToTime(elapsedTime), y );
 
 	}
 	

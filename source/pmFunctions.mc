@@ -103,6 +103,46 @@ module pmFunctions {
 		dc.fillPolygon(poly);
 	}
 	
+	function drawReverseChevron(dc, leftX, rightX, centreY, chevronHeight, isFirst, isLast) {
+	
+		// Draw event segments
+		var poly;
+		var segwidth = dc.getWidth() / 5;
+		
+		if( isFirst && isLast ) {
+			poly = new [0];
+			dc.fillRectangle(leftX, centreY - (chevronHeight / 2), rightX - leftX, chevronHeight);
+			return;
+		} else if( isFirst ) {
+			poly = [
+				[leftX, centreY - (chevronHeight / 2)],
+				[rightX + (chevronHeight / 2), centreY - (chevronHeight / 2)],
+				[rightX - (chevronHeight / 2), centreY],
+				[rightX + (chevronHeight / 2), centreY + (chevronHeight / 2)],
+				[leftX, centreY + (chevronHeight / 2)]
+				];
+		} else if( isLast ) {
+			poly = [
+				[leftX + (chevronHeight / 2), centreY - (chevronHeight / 2)],
+				[rightX, centreY - (chevronHeight / 2)],
+				[rightX, centreY + (chevronHeight / 2)],
+				[leftX + (chevronHeight / 2), centreY + (chevronHeight / 2)],
+				[leftX - (chevronHeight / 2), centreY]
+				];
+		} else {
+			poly = [
+				[leftX + (chevronHeight / 2), centreY - (chevronHeight / 2)],
+				[rightX + (chevronHeight / 2), centreY - (chevronHeight / 2)],
+				[rightX - (chevronHeight / 2), centreY],
+				[rightX + (chevronHeight / 2), centreY + (chevronHeight / 2)],
+				[leftX + (chevronHeight / 2), centreY + (chevronHeight / 2)],
+				[leftX - (chevronHeight / 2), centreY]
+				];
+		}
+		
+		dc.fillPolygon(poly);
+	}
+	
 	function getGPSQualityColour(gpsInfo) {
 		var gpsnfo;
 		if( gpsInfo == null ) {

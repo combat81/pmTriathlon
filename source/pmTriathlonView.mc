@@ -23,14 +23,25 @@ class pmTriathlonViewInputDelegate extends Ui.InputDelegate {
 			var inpdelegate = new pmRecordingViewInputDelegate();
 			
 			inpdelegate.recordingView = recview;
-			pmTriData.configureDisciplines();
+			pmTriData.configureDisciplines( App.getApp().getProperty( "TriathlonMode" ) );
 			pmTriData.nextDiscipline();
 			
 			Ui.switchToView( recview, inpdelegate, Ui.SLIDE_UP );
 			Ui.requestUpdate();
-
+			return true;
 		}
-	
+
+		if( evt.getKey() == Ui.KEY_MENU ) {
+			var cfgview = new pmConfigureView();
+			var cinpdelegate = new pmConfigureViewInputDelegate();
+			cinpdelegate.ConfigView = cfgview;
+			
+			Ui.pushView( cfgview, cinpdelegate, Ui.SLIDE_UP );
+			Ui.requestUpdate();
+			return true;
+		}
+		
+		return false;
 	}
 }
 

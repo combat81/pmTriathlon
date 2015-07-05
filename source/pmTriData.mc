@@ -13,12 +13,35 @@ module pmTriData {
 	var currentDiscipline = -1;
 
 	///////////////////////////////////////////////////////////////////////////////////// External functions
-	function configureDisciplines() {
-		disciplines[0].initaliseDiscipline(0);
-		disciplines[1].initaliseDiscipline(1);
-		disciplines[2].initaliseDiscipline(2);
-		disciplines[3].initaliseDiscipline(3);
-		disciplines[4].initaliseDiscipline(4);
+	function configureDisciplines( triMode ) {
+
+		// Normal Triathlon	
+		if( triMode == 0 )
+		{
+			disciplines[0].initaliseDiscipline(0);
+			disciplines[1].initaliseDiscipline(1);
+			disciplines[2].initaliseDiscipline(2);
+			disciplines[3].initaliseDiscipline(3);
+			disciplines[4].initaliseDiscipline(4);
+		}
+		// Reverse Tri
+		if( triMode == 1 )
+		{
+			disciplines[0].initaliseDiscipline(4);
+			disciplines[1].initaliseDiscipline(1);
+			disciplines[2].initaliseDiscipline(2);
+			disciplines[3].initaliseDiscipline(3);
+			disciplines[4].initaliseDiscipline(0);
+		}
+		// Duathlon
+		if( triMode == 2 )
+		{
+			disciplines[0].initaliseDiscipline(4);
+			disciplines[1].initaliseDiscipline(1);
+			disciplines[2].initaliseDiscipline(2);
+			disciplines[3].initaliseDiscipline(3);
+			disciplines[4].initaliseDiscipline(4);
+		}
 	}
 	
 	function nextDiscipline() {
@@ -33,5 +56,13 @@ module pmTriData {
 			disciplines[currentDiscipline].onBegin();
 			Ui.requestUpdate();
 		}
+	}
+	
+	function abortEvent() {
+		if( currentDiscipline >= 0 ) {
+			disciplines[currentDiscipline].onEnd();
+		}
+		currentDiscipline = 4;
+		Ui.switchToView(new pmFinishView(), new pmFinishViewInputDelegate(), Ui.SLIDE_UP);
 	}
 }

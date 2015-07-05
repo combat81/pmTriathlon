@@ -16,9 +16,9 @@ class pmDiscipline {
 		"Tri:Run" ];
 	static var stageSports = [ 
 		Rec.SPORT_SWIMMING, 
-		Rec.SPORT_TRANSITION, 
+		Rec.SPORT_WALKING, 
 		Rec.SPORT_CYCLING, 
-		Rec.SPORT_TRANSITION, 
+		Rec.SPORT_WALKING, 
 		Rec.SPORT_RUNNING ];
 	static var stageSubSports = [ 
 		Rec.SUB_SPORT_LAP_SWIMMING, 
@@ -69,4 +69,7 @@ class pmDiscipline {
 	function onTick() {
 	}
 
+	function getStageName() {
+		return stageNames[currentStage];
+	}
 }

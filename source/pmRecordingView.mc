@@ -13,16 +13,41 @@ class pmRecordingViewInputDelegate extends Ui.InputDelegate {
 	var recordingView;
 
 	function onKey(evt) {
-	
-		var keynum = Lang.format("R $1$", [evt.getKey()]);
-		Sys.println(keynum);
-		
 		if( evt.getKey() == Ui.KEY_ENTER ) {
 			pmTriData.nextDiscipline();
 			Ui.requestUpdate();
 		}
-	
+		
+		if( evt.getKey() == Ui.KEY_POWER ) {
+			pmTriData.abortEvent();
+			Ui.requestUpdate();
+		}
+		
+		// Imply that we handle everything
+		return true;
 	}
+	
+	function onTap(evt) {
+		// No tap events
+		return true;
+	}
+	
+	function onSwipe(evt) {
+		// No tap events
+		return true;
+	}
+	
+	function onHold(evt) {
+		// No tap events
+		return true;
+	}
+	
+	function onRelease(evt) {
+		// No tap events
+		return true;
+	}
+
+
 }
 
 class pmRecordingView extends Ui.View {
