@@ -158,7 +158,12 @@ class pmRecordingView extends Ui.View {
 		
 		if( pmTriData.currentDiscipline == 1 || pmTriData.currentDiscipline == 3 ) {
 			y = drawDataField( dc, null, "Transistion", y );
-		} else {
+		//Added section to show speed vs. pace on Cycle Discipline 	
+		} else if (pmTriData.currentDiscipline == 2) {
+			var cursession = Act.getActivityInfo();
+			y = drawDataField( dc, "Distance:", pmFunctions.convertDistance(cursession.elapsedDistance), y );
+			y = drawDataField( dc, "Speed:", cursession.currentSpeed, y );
+		}else {
 			var cursession = Act.getActivityInfo();
 			y = drawDataField( dc, "Distance:", pmFunctions.convertDistance(cursession.elapsedDistance), y );
 			y = drawDataField( dc, "Pace:", pmFunctions.convertSpeedToPace(cursession.currentSpeed), y );
